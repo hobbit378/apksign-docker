@@ -33,7 +33,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # cleanup filesystem
     rm -f ${tmpfile} && \
     apt-get autoclean && \
-    apt-get autoremove
+    apt-get autoremove ; \
+    \
+    # add user
+    useradd -G sudo sign && \
+    echo "sign:changeme" | chpasswd 
+
+USER sign
 
 ADD --chmod=555 rootfs/sign-linphone.sh /usr/bin/apksigner-linphone
 
